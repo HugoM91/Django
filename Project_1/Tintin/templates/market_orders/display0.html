@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+{% extends "default_layout.html" %}
+{% load static %}
+{% block body_block %}
+  <link rel="stylesheet"  href="{%  static  'css/market_orders_display.css'  %}">
+  <script src="{%  static  'js/myscript.js'  %}"></script>
+
+
+/*     TABLE BINANCE     */
+<div class="table-wrapper-scroll-y my-custom-scrollbar">
+  <table id="table_binance" class="table table-bordered table-striped mb-0 table_binance">
+    <thead>
+      <tr>
+        <td class="th-sm">Symbol</td>
+        <td class="th-sm">Price</td>
+        <td class="th-sm">Quantity</td>
+        <td class="th-sm">Side</td>
+      </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+
+  </table>
+
+  <script type="text/javascript">
+    let table = document.querySelector('#table_binance')
+    var URL = window.location.host
+    /*let url = 'ws://'+URL+'/ws/socket-server/market_orders'*/
+    let url = "wss://stream.binance.com:9443/ws/ethusdt@trade/btcusdt@trade/trxusdt@trade"
+    let side = 'nada'
+    const chatSocket = new WebSocket(url)
+
+    chatSocket.onmessage = function(e){
+      let data = JSON.parse(e.data)
+
+      if (data['q']*data['p'] >= 500){
+        console.log('Data', data)
+        console.log('jajhajajajajajaajajjajajajajajaja',data['q']*data['p'])
+        if (data['m'] == true){
+          let side = 'sell'
+        }
+        if (data['m'] == false){
+          let side = 'buy'
+        }
+        let quantity = data['q']*data['p']
+        let price = data['p']
+        let symbol = data['s']
+        let template ='<tr><td>'+symbol+'</td><td>'+price+'</td><td>'+quantity+'</td><td>'+side+'</td></tr>'
+        table.innerHTML += template
+        /*table.prepend(template)*/
+        }
+      }
+  </script>
+  </div>
+
+  {% endblock %}

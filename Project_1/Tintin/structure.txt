@@ -1,0 +1,5 @@
+apps
+  Market_Orders
+    6 lists displaying, filtered, live market orders from one or more symbols
+    filtered = make functions to filter what I want. eg: big orders, repetitive values
+    needs to be updated even if the user is not on the market_orders webpage

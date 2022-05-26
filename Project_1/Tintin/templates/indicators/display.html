@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+{% extends "default_layout.html" %}
+{% load static %}
+{% block body_block %}
+  <link rel="stylesheet"  href="{%  static  'css/indicators_display.css'  %}">
+
+
+    <h1>Indicators TEST </h1>
+    <h1>{{ rsi.0.symbol }}</h1>
+    <div class="container">
+
+    {% if rsi %}
+    <div class="container">
+    <!-- On rows -->
+      <table class="rwd-table">
+        <tr>
+            <th ></th>
+            <th >RSI</th>
+            <th ></th>
+            <th ></th>
+            <th ></th>
+            <th >MA28</th>
+            <th ></th>
+            <th ></th>
+            <th ></th>
+            <th >MA84</th>
+            <th ></th>
+            <th ></th>
+            <th ></th>
+            <th >MA168</th>
+            <th ></th>
+        </tr>
+        <tr>
+            {% for timeframe in timeframe %}
+            <th>{{ timeframe }}</th>
+            {% endfor %}
+            <th ></th>
+            {% for timeframe in timeframe %}
+            <th >{{ timeframe }}</th>
+            {% endfor %}
+            <th ></th>
+            {% for timeframe in timeframe %}
+            <th >{{ timeframe }}</th>
+            {% endfor %}
+            <th ></th>
+            {% for timeframe in timeframe %}
+            <th >{{ timeframe }}</th>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th >{{ rsi.0.tf_1h }}</th>
+            <th >{{ rsi.0.tf_4h }}</th>
+            <th >{{ rsi.0.tf_1d }}</th>
+            <th ></th>
+            <th >{{ mvgAVG_28.0.tf_1h }}</th>
+            <th >{{ mvgAVG_28.0.tf_4h }}</th>
+            <th >{{ mvgAVG_28.0.tf_1d }}</th>
+            <th ></th>
+            <th >{{ mvgAVG_84.0.tf_1h }}</th>
+            <th >{{ mvgAVG_84.0.tf_4h }}</th>
+            <th >{{ mvgAVG_84.0.tf_1d }}</th>
+            <th ></th>
+            <th >{{ mvgAVG_168.0.tf_1h }}</th>
+            <th >{{ mvgAVG_168.0.tf_4h }}</th>
+            <th >{{ mvgAVG_168.0.tf_1d }}</th>
+
+        </table>
+
+        <div class="container">
+          <form method="POST">
+              <p></p>
+              {{form.as_p}}
+              {% csrf_token %}
+              <input type="submit" name="" value="Submit">
+          </form>
+        </div>
+
+    </div>
+
+
+      {% endif %}
+    </div>
+    {% endblock %}
