@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+{% extends "default_layout.html" %}
+{% load static %}
+{% block body_block %}
+  <link rel="stylesheet"  href="{%  static  'css/market_orders_display.css'  %}">
+  <script src="{%  static  'js/myscript.js'  %}"></script>
+
+  /*     TABLE BINANCE     */
+  <div class="table-wrapper-scroll-y my-custom-scrollbar">
+    <table id="table_binance" class="table table-bordered table-striped mb-0 table_binance">
+      <thead>
+        <tr>
+          <td class="th-sm">Symbol</td>
+          <td class="th-sm">Price</td>
+          <td class="th-sm">Quantity</td>
+          <td class="th-sm">Side</td>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+
+    <script type="text/javascript">
+      let table = document.querySelector('#table_binance')
+      var URL = window.location.host
+      /*let url = 'ws://'+URL+'/ws/socket-server/market_orders'*/
+      let url = "wss://stream.binance.com:9443/ws/ethusdt@trade/btcusdt@trade/trxusdt@trade/datausdt@trade/waxpusdt@trade"
+      let side = 'ERRO'
+      const chatSocket = new WebSocket(url)
+      console.log("Connected to Binance Websocket");
+
+      chatSocket.onmessage = function(e){
+        let data = JSON.parse(e.data)
+
+        if (data['q']*data['p'] >= 50000){
+          if (data['m'] == true){
+            side = "sell";
+            table_class = ' class="table-danger "'
+          } else {
+            side = "buy";
+            table_class = ' class="table-success "'
+          }
+
+          let quantity = data['q']*data['p']
+          let price = data['p']
+          let symbol = data['s']
+          let template ='<tr><td'+table_class+'>'+symbol+'</td><td'+table_class+'>'+price+'</td><td'+table_class+'>'+quantity+'</td><td'+table_class+'>'+side+'</td></tr>'
+          table.innerHTML += template
+          /*table.prepend(template)*/
+          }
+        }
+    </script>
+    </div>
+
+/*   TABLE Coinbase   */
+
+  <div class="table-wrapper-scroll-y my-custom-scrollbar">
+    <table id="table_coinbase" class="table table-bordered table-striped mb-0 table_binance">
+      <thead>
+        <tr>
+          <td class="th-sm">Symbol</td>
+          <td class="th-sm">Price</td>
+          <td class="th-sm">Quantity</td>
+          <td class="th-sm">Side</td>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+
+    </table>
+    <script type="text/javascript">
+
+      let table2 = document.querySelector('#table_coinbase')
+      var URL2 = window.location.host
+      /*let url = 'ws://'+URL+'/ws/socket-server/market_orders'*/
+      let url2 = "wss://ws-feed.exchange.coinbase.com"
+      let side2 = 'nada'
+
+      const chatSocket2 = new WebSocket(url2)
+
+      chatSocket2.onopen = function () {
+        console.log("Connected to Coinbase Websocket");
+        chatSocket2.send('{"type": "subscribe","product_ids": ["BTC-USD","ETH-USD"],"channels": ["level2","heartbeat",{"name": "ticker","product_ids": ["BTC-USD"]}]}');
+      }
+
+      chatSocket2.onmessage = function(e2){
+        let data2 = JSON.parse(e2.data)
+
+        if (data2['type'] == 'l2update') {
+
+
+        let data2 = JSON.parse(e2.data)
+        let helpfull_var2 = data2['changes'][0]
+        let quantity2 = helpfull_var2[2]
+
+        if (quantity2 >= 50000){
+          let side2 = helpfull_var2[0]
+          if (side2 == 'sell'){
+            table_class = ' class="table-danger "'
+          } else {
+            table_class = ' class="table-success "'
+          }
+          let price2 = helpfull_var2[1]
+          let symbol2 = data2['product_id']
+          let template2 ='<tr><td'+table_class+'>'+symbol2+'</td><td'+table_class+'>'+price2+'</td><td'+table_class+'>'+quantity2+'</td><td'+table_class+'>'+side2+'</td></tr>'
+
+          table2.innerHTML += template2
+          /*table.prepend(template)*/
+          }
+        }
+      }
+    </script>
+    </div>
+
+  {% endblock %}

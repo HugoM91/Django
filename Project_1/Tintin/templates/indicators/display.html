@@ -6,9 +6,18 @@
 
 
     <h1>Indicators TEST </h1>
-    <h1>{{ rsi.0.symbol }}</h1>
-    <div class="container">
 
+    <div class="container">
+      <div class="container">
+        <form method="POST">
+            <div class="container">
+              <h5>{{ rsi.0.symbol }} </h5>
+              <h5>{{ form }} </h5>
+              {% csrf_token %}
+              <input type="submit" name="" value="Submit">
+            </div>
+        </form>
+      </div>
     {% if rsi %}
     <div class="container">
     <!-- On rows -->
@@ -66,14 +75,7 @@
 
         </table>
 
-        <div class="container">
-          <form method="POST">
-              <p></p>
-              {{form.as_p}}
-              {% csrf_token %}
-              <input type="submit" name="" value="Submit">
-          </form>
-        </div>
+
 
     </div>
 

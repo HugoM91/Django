@@ -1,3 +1,4 @@
+
 .my-custom-scrollbar {
 position: relative;
 height: 200px;
@@ -5,4 +6,16 @@ overflow: auto;
 }
 .table-wrapper-scroll-y {
 display: block;
+}
+
+.inline-div {
+  display: block;
+  text-align: center;
+}
+
+h4
+{
+  display: inline-block;
+  text-align: center;
+  margin: 20px;
 }

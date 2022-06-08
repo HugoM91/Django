@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% extends "default_layout.html" %}
+{% load static %}
+{% block body_block %}
+  <link rel="stylesheet"  href="{%  static  'css/indicators_display.css'  %}">
+  <h1>Injected Content : {{ injectme }} </h1>
+
+  <div class="container">
+
+    <h1>Lista dos Registos</h1>
+
+    <ol>
+      {% for registo in registo_lists %}
+      <h2>
+          <li>{{registo.username}}</li>
+      </h2>
+      {% endfor %}
+    </ol>
+
+  </div>
+{% endblock %}

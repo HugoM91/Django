@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'market_orders',
-    'indicators'
+    'indicators',
+    'crud',
+    'detailed_symbol',
 ]
 
 ASGI_APPLICATION = 'Tintin.asgi.application'

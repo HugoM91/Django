@@ -2,9 +2,6 @@ from django.shortcuts import render
 from indicators.models import RSI, MOVINGAVG28, MOVINGAVG84, MOVINGAVG168
 from . import forms
 
-# generate random integer values
-
-
 
 # Create your views here.
 def index(request):
@@ -30,11 +27,7 @@ def indicators(request):
             mvgAVG_168_list = MOVINGAVG168.objects.filter(symbol=symbol).order_by('-date')
 
 
-
-
     timeframe_list = ['1h','4h','1d']
-
-
 
     data_dict = {
         'rsi':rsi_list,

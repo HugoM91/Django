@@ -15,14 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import include
+
 from market_orders import views
 from indicators import views
-from django.conf.urls import include
+from crud import views
+from detailed_symbol import views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
-    path('', include('market_orders.urls')),
+    path('market_orders', include('market_orders.urls')),
     path('', include('indicators.urls')),
+    path('crud', include('crud.urls')),
+    path('', include('detailed_symbol.urls')),
+
 ]

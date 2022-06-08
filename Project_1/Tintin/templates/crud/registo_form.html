@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% extends "default_layout.html" %}
+{% load static %}
+{% block body_block %}
+  <link rel="stylesheet"  href="{%  static  'css/market_orders_display.css'  %}">
+  <script src="{%  static  'js/myscript.js'  %}"></script>
+
+  <h1>
+    {% if not form.instance.pk %}
+    Create Registo
+    {% else %}
+    Update Registo
+    {% endif %}
+  </h1>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" name="btn btn-primary" value="submit">
+  </form>
+
+
+{% endblock %}
